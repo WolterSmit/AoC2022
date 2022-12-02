@@ -13,7 +13,6 @@ var count = 0
 
 while let str = readLine() {
 
-    guard str.count == 3 else { fatalError("Line with other than three characters")}
     guard let match = response[str] else { fatalError("Unknown match \(str)")}
 
     count += match 
