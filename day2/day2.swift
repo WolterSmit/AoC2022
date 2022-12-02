@@ -15,10 +15,8 @@ var count = 0
 
 while let str = readLine() {
 
-    guard str.count == 3 else { fatalError("Line with other than three characters")}
     guard let match = move[str] else { fatalError("Unknown match \(str)")}
-
-    let third = str.index(str.startIndex, offsetBy: 2)
+    let third = str.index(str.startIndex, offsetBy: 2) 
     guard let move = points[str[third]] else { fatalError("Unknown points \(str[third])")}
 
     count += match + move
