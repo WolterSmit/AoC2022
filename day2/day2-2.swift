@@ -1,3 +1,8 @@
+var lines : [String] = []
+while let line = readLine() {
+    lines.append(line)
+}
+
 let response : [String:Int] = [
     "A Y": 3 + 1,
     "B Y": 3 + 2,
@@ -9,14 +14,7 @@ let response : [String:Int] = [
     "B Z": 6 + 3,
     "C Z": 6 + 1
 ]
-var count = 0
 
-while let str = readLine() {
-
-    guard let match = response[str] else { fatalError("Unknown match \(str)")}
-
-    count += match 
-
-} 
+let count = lines.reduce(0) { $0 + response[$1]! }
 
 print(count)
