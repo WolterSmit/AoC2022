@@ -14,7 +14,7 @@ let numberOfCrates = Int(numbersLine.split(separator: #/\s+/#).last!)!
 var stacks : [[Character]] = Array(repeating: [], count: numberOfCrates + 1)
 
 for crateLine in halves[0] {
-    let line = crateLine.map { Character(String($0)) }
+    let line = crateLine.map { $0 }
     for stack in 0..<numberOfCrates {
         let crate = line[1 + stack*4]
         if crate != " " {
@@ -35,11 +35,11 @@ let moveRegex = Regex {
 let moves = halves[1].compactMap { $0.firstMatch(of: moveRegex)}
                      .map { (cnt: Int($0.1)!, from: Int($0.2)!, to: Int($0.3)!) }
 
-for (nrmove, move) in moves.enumerated() {
+for move in moves {
     // print(move)
     for n in 1...move.cnt {
         guard let crate = stacks[move.from].popLast() else {
-            print("In \(nrmove):\(move) found empty stack \(move.from) on item \(n)")
+            print("In \(move) found empty stack \(move.from) on item \(n)")
             break
         }
         stacks[move.to].append(crate)
