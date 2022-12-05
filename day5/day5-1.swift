@@ -36,7 +36,6 @@ let moves = halves[1].compactMap { $0.firstMatch(of: moveRegex)}
                      .map { (cnt: Int($0.1)!, from: Int($0.2)!, to: Int($0.3)!) }
 
 for move in moves {
-    // print(move)
     for n in 1...move.cnt {
         guard let crate = stacks[move.from].popLast() else {
             print("In \(move) found empty stack \(move.from) on item \(n)")
@@ -44,7 +43,6 @@ for move in moves {
         }
         stacks[move.to].append(crate)
     }
-    // print(stacks)
 }
 
 print(stacks.compactMap { $0.last }.map { String($0) }.joined())
