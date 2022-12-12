@@ -59,7 +59,7 @@ func move(distance: Int, from: (y: Int, x: Int), with height: Int, path: String)
     let thisHeight = heights[from.y][from.x]
 
     // if height == 12 {
-    //     print("Distance \(distance) (\(thisDistance)) from \(from) on height \(height) (\(thisHeight))with \(path)")
+        print("Distance \(distance) (\(thisDistance)) from \(from) on height \(height) (\(thisHeight))with \(path)")
     // }
 
 
