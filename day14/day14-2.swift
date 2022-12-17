@@ -22,22 +22,6 @@ print(rows)
 
 enum Material : String { case air = ".", sand = "o", rock = "#", dust = "+" }
 
-// enum Material : CustomStringConvertible {
-//     case air
-//     case sand
-//     case rock
-//     case dust
-
-//     var description: String {
-//         switch self {
-//             case .air: return "."
-//             case .sand: return "o"
-//             case .rock: return "#"
-//             case .dust: return "+"
-//         }
-//     }
-// }
-
 var cave : [[Material]] = Array(repeating: Array(repeating: .air, count: cols), count: rows )
 
 var segments = lines.flatMap { zip($0.dropLast(),$0.dropFirst()).map {

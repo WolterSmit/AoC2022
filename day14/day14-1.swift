@@ -23,11 +23,10 @@ enum Material : String {
     case air = "."
     case sand = "o"
     case rock = "#"
-    case dust = "+" 
+    case dust = "~" 
 }
 
-
-var cave : [[Material]] = Array(repeating: Array(repeating: .air, count: cols), count: rows )
+var cave : [[Material]] = (1...rows).map { _ in (1...cols).map { _ in .air}}
 
 let segments = lines.flatMap { zip($0.dropLast(),$0.dropFirst()).map {
     ( rows: (min($0.0.y, $0.1.y)-offset.y)...(max($0.0.y, $0.1.y)-offset.y),
@@ -65,11 +64,13 @@ repeat {
         let left = Point(y: sand.y+1, x: sand.x-1)
         let right = Point(y: sand.y+1, x: sand.x+1)
 
-        if cave[below.y][below.x] == .air {
+        cave[sand.y][sand.x] = .dust
+
+        if cave[below.y][below.x] == .air || cave[below.y][below.x] == .dust {
             sand = below
-        } else if cave[left.y][left.x] == .air {
+        } else if cave[left.y][left.x] == .air || cave[left.y][left.x] == .dust {
             sand = left
-        } else if cave[right.y][right.x] == .air {
+        } else if cave[right.y][right.x] == .air || cave[right.y][right.x] == .dust {
             sand = right
         } else {
             cave[sand.y][sand.x] = .sand
