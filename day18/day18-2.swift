@@ -100,7 +100,9 @@ for z in minZ...maxZ {
 
 print(trappedSides)
 
-print(openSides - trappedSides)
+print("We have a surface area of \(openSides)")
+
+print("We have an external surface area of \(openSides - trappedSides)")
 
 
 
@@ -112,7 +114,7 @@ func printWithoutBorders() {
                 .map { Array($0.dropFirst().dropLast())}
         }
     for plane in short.prefix(3) {
-        print("---")
+        print()
         for row in plane {
             print(row.reduce("") { $0 + printAs[$1]})
         }
@@ -133,7 +135,7 @@ func fillWithSteam(for point: Point, depth: Int) {
         for neighbour in point.neighbours() {
             
             if (minX-1)...(maxX+1)~=neighbour.x && (minY-1)...(maxY+1)~=neighbour.y && (minZ-1)...(maxZ+1)~=neighbour.z {
-                fillAir(for: neighbour, depth: depth + 1)
+                fillWithSteam(for: neighbour, depth: depth + 1)
             }
         }
     }
