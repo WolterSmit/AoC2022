@@ -61,7 +61,7 @@ enum Path : CustomStringConvertible {
 }
 
 var path : [(pressure: Int, step: Path)] = []
-let depth = 30
+let depth = 6
 
 var bestPath : [Path] = []
 var maxPressure = 0
@@ -86,6 +86,7 @@ func nextStep(in minute: Int, to position: String, path addToPath: Path, with to
             // print("Breaking of, running in circles")
             return
         }
+
     }
 
     var pressure = 0
@@ -101,10 +102,29 @@ func nextStep(in minute: Int, to position: String, path addToPath: Path, with to
         path.append((pressure: pressure, step: addToPath))
         // print("\(addToPath)")
         // print("\(minute):",path.dropFirst().reduce("") { $0 + $1.step.shortDescription + ":" + String($1.pressure) + " "},"for \(totalPressure + pressure)")
+
+        let rateForClosedValves = valves.filter { !$0.value.open }.map { $0.value.rate }.sorted(by: >)
+        var theoreticalPossible = 0
+        for (n,rate) in rateForClosedValves.enumerated() {
+            let remainingTime = depth - minute - 2*n
+            if remainingTime > 0 {
+                theoreticalPossible += remainingTime * rate
+            }
+        }
+        if theoreticalPossible+totalPressure + pressure * (depth-minute+1) < maxPressure  {
+            // print("\(minute):",path.dropFirst().reduce("") { $0 + $1.step.shortDescription + ":" + String($1.pressure) + " "},"for \(totalPressure + pressure)")
+            // print(rateForClosedValves,"possible:",theoreticalPossible,"+",totalPressure,"+",pressure * (depth-minute+1),"=",theoreticalPossible+totalPressure + pressure * (depth-minute+1))
+            // print("Breaking of!")
+            path.removeLast()
+            return
+        }
+
     } else {
         path.append((pressure: 0, step: addToPath))
     }
     let newTotalPressure = totalPressure + pressure
+
+
 
     if minute >= depth {
         // print("\(minute):",path.dropFirst().reduce("") { $0 + $1.step.shortDescription + ":" + String($1.pressure) + " "} )
@@ -137,7 +157,24 @@ func nextStep(in minute: Int, to position: String, path addToPath: Path, with to
     path.removeLast()
 }
 
+print("----------------------------------------")
 nextStep(in: 0, to: "AA", path: .move("AA"))
+
+
+for (minute, step) in bestPath.dropFirst().enumerated() {
+    print("== Minute \(minute+1) ==")
+    let openValves = valves.filter { $0.value.open }
+    if openValves.count == 0 {
+        print("No valves are open.")
+    } else {
+        let pressure = openValves.reduce(0) { $0 + $1.value.rate }
+        print("Valves \(openValves.reduce("") { $0 + $1.key + ", " }.dropLast(2)) are open, releasing \(pressure) pressure.")
+    }
+    print("\(step)")
+    if case let .open(valve) = step {
+        valves[valve]!.open = true
+    }
+}
 
 // print("Best path for pressure \(maxPressure):",bestPath.dropFirst().reduce("") { $0 + $1.shortDescription + " "})
 
