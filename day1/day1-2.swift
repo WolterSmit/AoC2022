@@ -5,7 +5,7 @@ while let line = readLine() {
 }
 
 let calories = lines
-                .split(whereSeparator: { $0 == ""})
+                .split(separator: "")
                 .map { $0
                         .compactMap { Int($0)}
                         .reduce(0,+)
@@ -14,5 +14,5 @@ let calories = lines
 
 print("Max: \(calories.first!)")
 
-print("Top 3: \(calories[0]+calories[1]+calories[2])")
+print("Top 3: \(calories.prefix(3).reduce(0,+))")
 
